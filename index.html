@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi App Accesible</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>👂 Mi App Accesible</h1>
+    <p>Comunicación, lengua de señas y recordatorios</p>
+  </header>
+
+  <div id="banner-errores" class="oculto" role="alert"></div>
+
+  <section id="login" class="panel">
+    <h2>Iniciar sesión</h2>
+    <p>Escribe tus datos para entrar o crea una cuenta.</p>
+
+    <label for="usuario">Nombre de usuario</label>
+    <input type="text" id="usuario" placeholder="Tu nombre" autocomplete="username">
+
+    <label for="clave">Contraseña</label>
+    <input type="password" id="clave" placeholder="Tu contraseña" autocomplete="current-password">
+
+    <div class="acciones">
+      <button id="btn-entrar" type="button">Entrar</button>
+      <button id="btn-crear" type="button" class="secundario">Crear cuenta</button>
+    </div>
+    <p id="mensaje-error" role="alert"></p>
+  </section>
+
+  <main id="app" class="oculto">
+    <div class="barra-bienvenida">
+      <p>¡Hola! <strong id="nombre-actual"></strong></p>
+      <button id="btn-salir" type="button" class="secundario">Cerrar sesión</button>
+    </div>
+
+    <nav aria-label="Menú principal">
+      <button type="button" data-seccion="subtitulos">💬 Subtítulos</button>
+      <button type="button" data-seccion="senas">🤟 Lengua de señas</button>
+      <button type="button" data-seccion="calendario">📅 Calendario</button>
+    </nav>
+
+    <section id="subtitulos" class="pantalla panel">
+      <h2>Subtítulos en vivo</h2>
+      <p>Presiona el botón y permite el uso del micrófono para convertir la voz en texto.</p>
+
+      <div class="acciones">
+        <button id="btn-escuchar" type="button">🎤 Empezar a escuchar</button>
+        <button id="btn-parar" type="button" class="peligro oculto">⏹ Parar</button>
+      </div>
+
+      <p id="estado" role="status" aria-live="polite">
+        Pulsa «Empezar a escuchar» para comenzar.
+      </p>
+
+      <div id="caja-subtitulos" aria-live="polite" aria-label="Subtítulos reconocidos">
+        Aquí aparecerá lo que se escuche...
+      </div>
+
+      <div class="acciones">
+        <button id="btn-guardar" type="button">💾 Guardar subtítulo</button>
+        <button id="btn-limpiar" type="button" class="secundario">🧹 Limpiar texto</button>
+      </div>
+
+      <h3>Subtítulos guardados</h3>
+      <button id="btn-descargar" type="button" class="secundario">⬇ Descargar en TXT</button>
+      <ul id="lista-guardados"></ul>
+    </section>
+
+    <section id="senas" class="pantalla panel oculto">
+      <h2>Aprender lengua de señas</h2>
+      <p>Este espacio está preparado para añadir lecciones y materiales de lengua de señas.</p>
+      <div class="informacion">
+        <h3>Podemos incluir</h3>
+        <ul>
+          <li>Saludos y presentaciones.</li>
+          <li>Alfabeto manual.</li>
+          <li>Números y frases cotidianas.</li>
+        </ul>
+        <p>Como estás en Colombia, podemos orientar las lecciones a la Lengua de Señas Colombiana (LSC).</p>
+      </div>
+    </section>
+
+    <section id="calendario" class="pantalla panel oculto">
+      <h2>Mi calendario de salud</h2>
+      <p>Los días se marcan según los eventos que registres.</p>
+
+      <div id="avisos" aria-live="polite"></div>
+      <p id="ultima-pila" class="resumen-pilas"></p>
+
+      <div class="calendario">
+        <div id="mes-control">
+          <button id="mes-anterior" type="button" class="secundario" aria-label="Mes anterior">◀</button>
+          <h3 id="mes-titulo" aria-live="polite"></h3>
+          <button id="mes-siguiente" type="button" class="secundario" aria-label="Mes siguiente">▶</button>
+        </div>
+
+        <div id="rejilla-mes" class="rejilla-mes"></div>
+
+        <div class="leyenda">
+          <span>🩺 Cita</span>
+          <span>🔋 Cambio de pilas</span>
+          <span>✔ Ya realizado</span>
+        </div>
+      </div>
+
+      <div class="separador">
+        <h3 id="titulo-dia">Eventos del día seleccionado</h3>
+        <ul id="lista-dia" class="lista-eventos"></ul>
+      </div>
+
+      <div class="separador">
+        <h3>Agregar recordatorio</h3>
+        <form id="form-evento">
+          <label for="ev-tipo">¿Qué quieres agregar?</label>
+          <select id="ev-tipo" required>
+            <option value="cita">🩺 Cita médica</option>
+            <option value="pilas">🔋 Cambio de pilas</option>
+          </select>
+
+          <label for="ev-nota">Nota o detalle</label>
+          <input id="ev-nota" type="text" maxlength="160" placeholder="Ej.: Cita con el audiólogo">
+
+          <label for="ev-fecha">Fecha</label>
+          <input id="ev-fecha" type="date" required>
+
+          <label for="ev-hora">Hora (opcional)</label>
+          <input id="ev-hora" type="time">
+
+          <div id="bloque-repetir" class="oculto">
+            <label for="ev-repetir">Repetir el siguiente cambio cada cuántos días</label>
+            <input id="ev-repetir" type="number" min="0" max="365" value="30">
+            <small>Escribe 0 si no quieres repetirlo automáticamente.</small>
+          </div>
+
+          <label class="casilla">
+            <input id="ev-hecho" type="checkbox">
+            <span>✔ Ya lo hice o ya ocurrió en esa fecha</span>
+          </label>
+
+          <button id="btn-agregar-evento" type="submit">➕ Agregar recordatorio</button>
+          <p id="ev-error" role="alert"></p>
+        </form>
+      </div>
+
+      <div class="separador">
+        <h3>Todos mis recordatorios</h3>
+        <ul id="lista-eventos" class="lista-eventos"></ul>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Mi App Accesible · Los datos se guardan en este navegador.</p>
+  </footer>
+</body>
+</html>
